@@ -5,6 +5,9 @@ print("teste")
 
 from cliente import Cliente
 
-c1 = Cliente("Nome", "123456789")
+from conta import conta
 
-print(c1.name, " e ", c1.telefone)
+c1 = Cliente("João","114444-2222")
+conta = conta(c1.nome,6565,0)
+
+print(conta.titular," Numero: ",conta.numero, "Seu saldo: ", conta.saldo)
