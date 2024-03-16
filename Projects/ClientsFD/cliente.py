@@ -1,4 +1,4 @@
 class Cliente:
     def __init__(self, n, fone):
-        self.name = n
+        self.nome = n
         self.telefone = fone
