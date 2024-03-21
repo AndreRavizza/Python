@@ -1,6 +1,6 @@
-class conta:
+class Conta:
     def __init__(self, titular, numero, saldo):
-        self._saldo = 0
+        self.saldo = 0
         self.numero = numero
         self.titular = titular
 
@@ -26,4 +26,4 @@ class conta:
         self.saldo+=valor
 
     def extrato(self):
-        print("Cliente", self._titular, " Saldo Atual: ", self._saldo)
+        print("Cliente", self.titular, " Saldo Atual: ", self.saldo)
