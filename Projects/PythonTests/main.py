@@ -217,3 +217,25 @@ lista_produtos.sort(reverse=True)
 print("Lista em ordem decrescente:")
 
 print(lista_produtos)
+
+# Loops
+
+for i in range(5):
+    print('Teste')
+
+loop_produtos = []
+
+for produto_conta in lista_produtos:
+
+    if produto_conta not in loop_produtos:
+
+        loop_produtos.append(produto_conta)
+
+        qtd_produto = int(lista_produtos.count(produto_conta))
+
+        if qtd_produto > 1:
+            print(f"Há {qtd_produto} {produto_conta}s no estoque")
+        elif qtd_produto > 0 and qtd_produto < 2:
+            print(f"Há {qtd_produto} {produto_conta} no estoque")
+        else:
+            print(f"O produto {produto_conta} não existe na lista")
