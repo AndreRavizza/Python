@@ -239,3 +239,46 @@ for produto_conta in lista_produtos:
             print(f"Há {qtd_produto} {produto_conta} no estoque")
         else:
             print(f"O produto {produto_conta} não existe na lista")
+
+# Dicionário de itens
+
+dict_produtos = {"Iphone": [7200,256], "Macbook": [14999,2000], "AppleWatch": [4500,64]}
+
+# Carregar um item do dicionário
+
+print(dict_produtos)
+print(dict_produtos["Iphone"])
+
+# Editar um item do dicionário
+
+dict_produtos["Iphone"] = [7450,256]
+
+print(dict_produtos["Iphone"])
+
+# Verificar quatidade de itens no dicionário
+
+print(len(dict_produtos))
+
+# Remover itens do dicionário
+
+dict_produtos.pop("AppleWatch")
+print(dict_produtos)
+
+# Adicionar um item no dicionário
+
+dict_produtos["AppleWatch"] = [4500,64]
+print(dict_produtos)
+
+# Verificar se um item existe no dicionário
+
+if "Iphone" in dict_produtos:
+    print("Item existe")
+else:
+    print("Item não existe")
+
+# Verificar se os valores do item existe no dicionário
+
+if [7450,256] in dict_produtos.values():
+    print("Valor Existe")
+else:
+    print("Valor não existe")
