@@ -1,9 +1,9 @@
 class main:
     pass
 
-# utilizando uma função
+# utilizando uma classe
 
-from defs import Calc
+from Calc import Calc
 
 c02 = Calc(1, 3)
 
@@ -282,3 +282,15 @@ if [7450,256] in dict_produtos.values():
     print("Valor Existe")
 else:
     print("Valor não existe")
+
+# Criando e utilizando uma função
+
+def obter_valor_imposto(valor):
+    valor_imposto = valor * 0.34
+    return valor_imposto
+
+valor_original = 15532.84
+valor_imposto = obter_valor_imposto(valor_original)
+valor = valor_original - valor_imposto
+
+print(f"O valor original do produto é de R${valor_original} e de R${round(valor,2)} descontado os impostos")
