@@ -3,9 +3,9 @@ class main:
 
 # utilizando uma classe
 
-from Calc import Calc
+from Calc import calc
 
-c02 = Calc(1, 3)
+c02 = calc(1, 3)
 
 print(c02.result)
 
@@ -294,3 +294,46 @@ valor_imposto = obter_valor_imposto(valor_original)
 valor = valor_original - valor_imposto
 
 print(f"O valor original do produto é de R${valor_original} e de R${round(valor,2)} descontado os impostos")
+
+# Utilizado bibliotecas
+
+import os
+
+diretorio = os.listdir("arquivos")
+
+print(diretorio)
+
+import datetime
+
+hoje = datetime.date.today()
+
+print(hoje)
+
+# Mover arquivos para uma pasta
+
+lista_arquivos = os.listdir("arquivos")
+    
+for arquivo in lista_arquivos:
+    if ".txt" in arquivo:
+        if "22" in arquivo:
+            os.rename(f"arquivos/{arquivo}",f"arquivos/22/{arquivo}")
+        else:
+            os.rename(f"arquivos/{arquivo}",f"arquivos/23/{arquivo}")
+
+print("arquivos movidos para o diretório correto")
+
+# Retornando os arquivos para a pasta raiz original
+
+lista_arquivos_22 = os.listdir("arquivos/22")
+lista_arquivos_23= os.listdir("arquivos/23")
+
+lista_completa = lista_arquivos_22 + lista_arquivos_23
+
+for arquivo in lista_completa:
+    if ".txt" in arquivo:
+        if "22" in arquivo:
+            os.rename(f"arquivos/22/{arquivo}",f"arquivos/{arquivo}")
+        else:
+            os.rename(f"arquivos/23/{arquivo}",f"arquivos/{arquivo}")
+
+print("Arquivos movidos para o diretório original")
