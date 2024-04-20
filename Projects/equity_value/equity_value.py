@@ -2,7 +2,7 @@ import pandas as pd
 
 #Importando o arquivo
 
-df = pd.read_excel('Worth.xlsx')
+df = pd.read_excel('Equity Value.xlsx')
 
 #Selecionando a coluna "Produto" e alterando-a para apenas o texto antes do "-"
 
