@@ -1,4 +1,5 @@
 import pandas as pd
+from datetime import datetime, timedelta
 
 #Importando o arquivo
 
@@ -12,4 +13,30 @@ df = pd.read_excel('Equity Value.xlsx')
 
 df['Produto'] = df['Produto'].str.split('-').str[0].str.strip()
 
-print(df)
+# convertendo a coluna "Data" para formato de data utilizando a biblioteca "Datetime"
+# dayfirst define que o primeiro número da data se refere ao dia
+
+df['Data'] = pd.to_datetime(df['Data'], dayfirst=True)
+
+# Localizar a menor e a maior data da tabela na coluna "Data"
+
+min_date = df['Data'].min()
+max_date = df['Data'].max()
+
+# Criando uma lista vazia que será armazenadas todas as datas entre a menor e a maior data
+
+date_list = []
+
+# Definindo a data atual igual a menor data
+
+current_date = min_date
+
+# Criando um loop que insere na lista todas os dias entre a data mínima e a data máxima
+
+while current_date <= max_date:
+
+    date_list.append(current_date)
+
+    current_date = current_date + timedelta(days=1)
+
+print(date_list)
