@@ -39,4 +39,24 @@ while current_date <= max_date:
 
     current_date = current_date + timedelta(days=1)
 
-print(date_list)
+# Verificando em cada dia qual o valor do portfólio
+
+for day in date_list:
+
+    #Verificando a quantidade de linhas que existem para o dia
+
+    rows_count = (df['Data'] == day).sum()
+
+    if rows_count > 0:
+
+        index_list = []
+
+        current_row = 0
+
+        while current_row < rows_count:
+
+            # Inserindo todos os valores dos índices do dia em uma lista
+
+            index_list.append(df[df['Data'] == day].index[current_row - 1])
+
+            current_row = current_row + 1
