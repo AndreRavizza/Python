@@ -1,4 +1,5 @@
 import pandas as pd
+import yfinance as yf
 from datetime import datetime, timedelta
 
 #Importando o arquivo
@@ -60,3 +61,11 @@ for day in date_list:
             index_list.append(df[df['Data'] == day].index[current_row - 1])
 
             current_row = current_row + 1
+
+        # Verificando o ativo e a quantidade de cada movimentação
+
+        for index_number in index_list:
+
+            asset_ticker = df.loc[index_number, 'Produto']
+
+            asset_amount = df.loc[index_number, 'Quantidade']
