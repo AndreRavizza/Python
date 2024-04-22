@@ -56,7 +56,7 @@ for day in date_list:
 
         index_list = []
 
-        current_row = 0
+        current_row = 1
 
         while current_row < rows_count:
 
