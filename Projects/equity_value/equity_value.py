@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 #Importando o arquivo
 
-df = pd.read_excel('Equity Value.xlsx')
+df = pd.read_excel('Equity Value2.xlsx')
 
 #Selecionando a coluna "Produto" e alterando-a para apenas o texto antes do "-"
 
@@ -40,6 +40,10 @@ while current_date <= max_date:
 
     current_date = current_date + timedelta(days=1)
 
+# Criando um dicionário que irá armazenar os ativos e a quantidade
+
+assets_dic = {}
+
 # Verificando em cada dia qual o valor do portfólio
 
 for day in date_list:
@@ -68,4 +72,28 @@ for day in date_list:
 
             asset_ticker = df.loc[index_number, 'Produto']
 
-            asset_amount = df.loc[index_number, 'Quantidade']
+            if asset_ticker in assets_dic:
+
+                if df.loc[index_number, 'Entrada/Saída'] == 'Credito':
+
+                     asset_amount = asset_amount + df.loc[index_number, 'Quantidade']
+
+                     assets_dic[asset_ticker] = asset_amount
+
+                elif df.loc[index_number, 'Entrada/Saída'] == 'Debito':
+
+                    asset_amount = asset_amount - df.loc[index_number, 'Quantidade']
+
+                    assets_dic[asset_ticker] = asset_amount
+
+                else:
+
+                    raise SystemError("Entrada/Saída deve ser Credito ou Debito")
+
+            else:
+
+                asset_amount = df.loc[index_number, 'Quantidade']
+                
+                assets_dic[df.loc[index_number, 'Produto']] = [asset_amount]
+
+        print(day,assets_dic)
