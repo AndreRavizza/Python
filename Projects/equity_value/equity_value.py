@@ -56,13 +56,13 @@ for day in date_list:
 
         index_list = []
 
-        current_row = 1
+        current_row = 0
 
         while current_row < rows_count:
 
             # Inserindo todos os valores dos índices do dia em uma lista
 
-            index_list.append(df[df['Data'] == day].index[current_row - 1])
+            index_list.append(df[df['Data'] == day].index[current_row])
 
             current_row = current_row + 1
 
