@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 #Importando o arquivo
 
-df = pd.read_excel('Equity Value2.xlsx')
+df = pd.read_excel('Equity Value.xlsx')
 
 #Selecionando a coluna "Produto" e alterando-a para apenas o texto antes do "-"
 
@@ -76,13 +76,13 @@ for day in date_list:
 
                 if df.loc[index_number, 'Entrada/Saída'] == 'Credito':
 
-                     asset_amount = asset_amount + df.loc[index_number, 'Quantidade']
+                     asset_amount = assets_dic[asset_ticker] + df.loc[index_number, 'Quantidade']
 
                      assets_dic[asset_ticker] = asset_amount
 
                 elif df.loc[index_number, 'Entrada/Saída'] == 'Debito':
 
-                    asset_amount = asset_amount - df.loc[index_number, 'Quantidade']
+                    asset_amount = assets_dic[asset_ticker] - df.loc[index_number, 'Quantidade']
 
                     assets_dic[asset_ticker] = asset_amount
 
