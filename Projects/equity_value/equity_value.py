@@ -67,7 +67,7 @@ for day in date_list:
 
             current_row = current_row + 1
 
-        # Verificando o ativo e a quantidade de cada movimentação
+        # Verificando o ativo e a quantidade de cada movimentação e atualizando o dicionário
 
         for index_number in index_list:
 
@@ -109,4 +109,28 @@ for day in date_list:
                 
                 assets_dic[df.loc[index_number, 'Produto']] = [asset_amount]
 
-print(day,assets_dic)
+    # Calculando o valor total de todos os ativos daquele dia
+
+    asset_value = 0
+
+    for asset in assets_dic:
+
+        asset_amount = assets_dic[asset]
+
+        try:
+
+            day_format = day.strftime("%Y-%m-%d")
+            data = yf.Ticker(asset)
+            data = data.history(day_format)
+            data = data['Close'].iloc[-1]
+
+        except Exception:
+
+            day_format = day.strftime("%Y-%m-%d")
+            data = yf.Ticker(f"{asset}.SA")
+            data = data.history(day_format)
+            data = data['Close'].iloc[-1]
+
+        asset_value = asset_value + (data * np.sum(np.array(asset_amount)))
+
+print(asset_value)
