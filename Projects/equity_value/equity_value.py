@@ -1,6 +1,7 @@
 import pandas as pd
 import yfinance as yf
 from datetime import datetime, timedelta
+import numpy as np
 
 #Importando o arquivo
 
@@ -76,13 +77,21 @@ for day in date_list:
 
                 if df.loc[index_number, 'Entrada/Saída'] == 'Credito':
 
-                     asset_amount = assets_dic[asset_ticker] + df.loc[index_number, 'Quantidade']
+                    old_amount = np.sum(np.array([assets_dic[asset_ticker]]))
 
-                     assets_dic[asset_ticker] = asset_amount
+                    new_amount = df.loc[index_number, 'Quantidade']
+
+                    asset_amount = old_amount + new_amount
+
+                    assets_dic[asset_ticker] = asset_amount
 
                 elif df.loc[index_number, 'Entrada/Saída'] == 'Debito':
 
-                    asset_amount = assets_dic[asset_ticker] - df.loc[index_number, 'Quantidade']
+                    old_amount = np.sum(np.array([assets_dic[asset_ticker]]))
+
+                    new_amount = df.loc[index_number, 'Quantidade']
+
+                    asset_amount = old_amount - new_amount
 
                     assets_dic[asset_ticker] = asset_amount
 
@@ -96,4 +105,4 @@ for day in date_list:
                 
                 assets_dic[df.loc[index_number, 'Produto']] = [asset_amount]
 
-        print(day,assets_dic)
+print(day,assets_dic)
