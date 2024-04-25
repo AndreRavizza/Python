@@ -95,6 +95,10 @@ for day in date_list:
 
                     assets_dic[asset_ticker] = asset_amount
 
+                    if asset_amount <= 0:
+
+                        assets_dic.pop(asset_ticker)
+
                 else:
 
                     raise SystemError("Entrada/Saída deve ser Credito ou Debito")
