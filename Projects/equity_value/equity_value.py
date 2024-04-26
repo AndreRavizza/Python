@@ -5,7 +5,7 @@ import numpy as np
 
 #Importando o arquivo
 
-df = pd.read_excel('Equity Value.xlsx')
+df = pd.read_excel('Equity Value3.xlsx')
 
 #Selecionando a coluna "Produto" e alterando-a para apenas o texto antes do "-"
 
@@ -113,24 +113,38 @@ for day in date_list:
 
     # Calculando o valor total de todos os ativos daquele dia
 
+    day = pd.to_datetime(day, format="%Y-%m/%d")
+
+    start_date = day - timedelta(days=1)
+
+    end_date = day + timedelta(days=1)
+
+    start_date = start_date.strftime("%Y-%m-%d")
+
+    end_date = end_date.strftime("%Y-%m-%d")
+
+    day = day.strftime("%Y-%m-%d")
+    
     for asset in assets_dic:
 
         asset_amount = assets_dic[asset]
 
         if asset.find("3") == -1 and asset.find("4") == -1 and asset.find("11") == -1:
 
-            day_format = day.strftime("%Y-%m-%d")
-            data = yf.Ticker(asset)
-            data = data.history(day_format)
-            data = data['Close'].iloc[-1]
+            asset = yf.Ticker(asset)
+
+            historical_data = asset.history(start=start_date, end=end_date)
+
+            close_price = historical_data.loc[day, 'Close']
 
         elif asset.find("1") == -1:
 
-            day_format = day.strftime("%Y-%m-%d")
-            data = yf.Ticker(f"{asset}.SA")
-            data = data.history(day_format)
-            data = data['Close'].iloc[-1]
+            asset = yf.Ticker(f"{asset}.SA")
 
-        asset_value = asset_value + (data * np.sum(np.array(asset_amount)))
+            historical_data = asset.history(start=start_date, end=end_date)
+
+            close_price = historical_data.loc[day, 'Close']
+
+        asset_value = asset_value + (close_price * np.sum(np.array(asset_amount)))
 
     print(day, asset_value)
