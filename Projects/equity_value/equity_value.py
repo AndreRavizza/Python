@@ -49,6 +49,8 @@ assets_dic = {}
 
 for day in date_list:
 
+    asset_value = 0
+
     #Verificando a quantidade de linhas que existem para o dia
 
     rows_count = (df['Data'] == day).sum()
@@ -111,20 +113,18 @@ for day in date_list:
 
     # Calculando o valor total de todos os ativos daquele dia
 
-    asset_value = 0
-
     for asset in assets_dic:
 
         asset_amount = assets_dic[asset]
 
-        try:
+        if asset.find("3") == -1 and asset.find("4") == -1 and asset.find("11") == -1:
 
             day_format = day.strftime("%Y-%m-%d")
             data = yf.Ticker(asset)
             data = data.history(day_format)
             data = data['Close'].iloc[-1]
 
-        except Exception:
+        elif asset.find("1") == -1:
 
             day_format = day.strftime("%Y-%m-%d")
             data = yf.Ticker(f"{asset}.SA")
@@ -133,4 +133,4 @@ for day in date_list:
 
         asset_value = asset_value + (data * np.sum(np.array(asset_amount)))
 
-print(asset_value)
+    print(day, asset_value)
