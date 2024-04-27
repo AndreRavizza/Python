@@ -129,7 +129,7 @@ for day in date_list:
 
         asset_amount = assets_dic[asset]
 
-        if asset.find("3") == -1 and asset.find("4") == -1 and asset.find("11") == -1:
+        if asset.find("3") == -1 and asset.find("4") == -1 and asset.find("11") == -1 and asset.find("1") == -1:
 
             asset = yf.Ticker(asset)
 
