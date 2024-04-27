@@ -115,7 +115,7 @@ for day in date_list:
 
     day = pd.to_datetime(day, format="%Y-%m/%d")
 
-    start_date = day - timedelta(days=1)
+    start_date = day - timedelta(days=7)
 
     end_date = day + timedelta(days=1)
 
@@ -135,7 +135,13 @@ for day in date_list:
 
             historical_data = asset.history(start=start_date, end=end_date)
 
-            close_price = historical_data.loc[day, 'Close']
+            if day in historical_data.index:
+
+                close_price = historical_data.loc[day, 'Close']
+
+            else:
+
+                close_price = historical_data['Close'].iloc[-1]
 
         elif asset.find("1") == -1:
 
@@ -143,7 +149,13 @@ for day in date_list:
 
             historical_data = asset.history(start=start_date, end=end_date)
 
-            close_price = historical_data.loc[day, 'Close']
+            if day in historical_data.index:
+
+                close_price = historical_data.loc[day, 'Close']
+
+            else:
+
+                close_price = historical_data['Close'].iloc[-1]
 
         asset_value = asset_value + (close_price * np.sum(np.array(asset_amount)))
 
