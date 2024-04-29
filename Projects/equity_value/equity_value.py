@@ -5,7 +5,7 @@ import numpy as np
 
 #Importando o arquivo
 
-df = pd.read_excel('Equity Value3.xlsx')
+df = pd.read_excel('Equity Value.xlsx')
 
 #Selecionando a coluna "Produto" e alterando-a para apenas o texto antes do "-"
 
@@ -45,9 +45,19 @@ while current_date <= max_date:
 
 assets_dic = {}
 
+# Criando uma lista para controlar os ativos inválidos que devem ser removidos
+
+removed_assets = []
+
 # Verificando em cada dia qual o valor do portfólio
 
 for day in date_list:
+
+    for removed_asset in removed_assets:
+
+        if removed_asset in assets_dic:
+
+            assets_dic.pop(removed_asset)
 
     asset_value = 0
 
@@ -75,41 +85,43 @@ for day in date_list:
 
             asset_ticker = df.loc[index_number, 'Produto']
 
-            if asset_ticker in assets_dic:
+            if asset_ticker not in removed_assets:
 
-                if df.loc[index_number, 'Entrada/Saída'] == 'Credito':
+                if asset_ticker in assets_dic:
 
-                    old_amount = np.sum(np.array([assets_dic[asset_ticker]]))
+                    if df.loc[index_number, 'Entrada/Saída'] == 'Credito':
 
-                    new_amount = df.loc[index_number, 'Quantidade']
+                        old_amount = np.sum(np.array([assets_dic[asset_ticker]]))
 
-                    asset_amount = old_amount + new_amount
+                        new_amount = df.loc[index_number, 'Quantidade']
 
-                    assets_dic[asset_ticker] = asset_amount
+                        asset_amount = old_amount + new_amount
 
-                elif df.loc[index_number, 'Entrada/Saída'] == 'Debito':
+                        assets_dic[asset_ticker] = asset_amount
 
-                    old_amount = np.sum(np.array([assets_dic[asset_ticker]]))
+                    elif df.loc[index_number, 'Entrada/Saída'] == 'Debito':
 
-                    new_amount = df.loc[index_number, 'Quantidade']
+                        old_amount = np.sum(np.array([assets_dic[asset_ticker]]))
 
-                    asset_amount = old_amount - new_amount
+                        new_amount = df.loc[index_number, 'Quantidade']
 
-                    assets_dic[asset_ticker] = asset_amount
+                        asset_amount = old_amount - new_amount
 
-                    if asset_amount <= 0:
+                        assets_dic[asset_ticker] = asset_amount
 
-                        assets_dic.pop(asset_ticker)
+                        if asset_amount <= 0:
+
+                            assets_dic.pop(asset_ticker)
+
+                    else:
+
+                        raise SystemError("Entrada/Saída deve ser Credito ou Debito")
 
                 else:
 
-                    raise SystemError("Entrada/Saída deve ser Credito ou Debito")
-
-            else:
-
-                asset_amount = df.loc[index_number, 'Quantidade']
-                
-                assets_dic[df.loc[index_number, 'Produto']] = [asset_amount]
+                    asset_amount = df.loc[index_number, 'Quantidade']
+                    
+                    assets_dic[df.loc[index_number, 'Produto']] = [asset_amount]
 
     # Calculando o valor total de todos os ativos daquele dia
 
@@ -131,32 +143,50 @@ for day in date_list:
 
         if asset.find("3") == -1 and asset.find("4") == -1 and asset.find("11") == -1 and asset.find("1") == -1:
 
-            asset = yf.Ticker(asset)
+            asset_yf = yf.Ticker(asset)
 
-            historical_data = asset.history(start=start_date, end=end_date)
+            historical_data = asset_yf.history(start=start_date, end=end_date)
 
             if day in historical_data.index:
 
                 close_price = historical_data.loc[day, 'Close']
 
-            else:
+                asset_value = asset_value + (close_price * np.sum(np.array(asset_amount)))
+
+            elif day not in historical_data.index and not historical_data.empty:
 
                 close_price = historical_data['Close'].iloc[-1]
+
+                asset_value = asset_value + (close_price * np.sum(np.array(asset_amount)))
+
+            else:
+
+                if asset not in removed_assets:
+
+                    removed_assets.append(asset)
 
         elif asset.find("1") == -1:
 
-            asset = yf.Ticker(f"{asset}.SA")
+            asset_yf = yf.Ticker(f"{asset}.SA")
 
-            historical_data = asset.history(start=start_date, end=end_date)
+            historical_data = asset_yf.history(start=start_date, end=end_date)
 
             if day in historical_data.index:
 
                 close_price = historical_data.loc[day, 'Close']
 
-            else:
+                asset_value = asset_value + (close_price * np.sum(np.array(asset_amount)))
+
+            elif day not in historical_data.index and not historical_data.empty:
 
                 close_price = historical_data['Close'].iloc[-1]
 
-        asset_value = asset_value + (close_price * np.sum(np.array(asset_amount)))
+                asset_value = asset_value + (close_price * np.sum(np.array(asset_amount)))
+
+            else:
+
+                 if asset not in removed_assets:
+
+                    removed_assets.append(asset)
 
     print(day, asset_value)
