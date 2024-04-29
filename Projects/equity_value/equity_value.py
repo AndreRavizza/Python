@@ -53,12 +53,6 @@ removed_assets = []
 
 for day in date_list:
 
-    for removed_asset in removed_assets:
-
-        if removed_asset in assets_dic:
-
-            assets_dic.pop(removed_asset)
-
     asset_value = 0
 
     #Verificando a quantidade de linhas que existem para o dia
@@ -188,5 +182,11 @@ for day in date_list:
                  if asset not in removed_assets:
 
                     removed_assets.append(asset)
+
+    for removed_asset in removed_assets:
+
+        if removed_asset in assets_dic:
+
+            assets_dic.pop(removed_asset)
 
     print(day, asset_value)
