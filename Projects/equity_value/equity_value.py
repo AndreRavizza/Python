@@ -117,7 +117,7 @@ for day in date_list:
                     
                     assets_dic[df.loc[index_number, 'Produto']] = [asset_amount]
 
-    # Calculando o valor total de todos os ativos daquele dia
+    # Formatando as datas e definindo a data inicio e fim para cada consulta de cotação no yahoo finance
 
     day = pd.to_datetime(day, format="%Y-%m/%d")
 
@@ -130,6 +130,8 @@ for day in date_list:
     end_date = end_date.strftime("%Y-%m-%d")
 
     day = day.strftime("%Y-%m-%d")
+
+    # Calculando o valor total de todos os ativos daquele dia
     
     for asset in assets_dic:
 
