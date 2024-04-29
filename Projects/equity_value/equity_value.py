@@ -185,10 +185,10 @@ for day in date_list:
 
                     removed_assets.append(asset)
 
-    for removed_asset in removed_assets:
+        for removed_asset in removed_assets:
 
-        if removed_asset in assets_dic:
+            if removed_asset in assets_dic:
 
-            assets_dic.pop(removed_asset)
+                assets_dic.pop(removed_asset)
 
     print(day, asset_value)
