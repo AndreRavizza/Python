@@ -149,6 +149,14 @@ for day in date_list:
 
         if day in historical_data.index:
 
+            stock_split_value = historical_data.loc[day, 'Stock Splits']
+
+            stock_split_value = int(stock_split_value)
+
+            if stock_split_value != 0:
+
+                asset_amount = asset_amount * stock_split_value
+
             close_price = historical_data.loc[day, 'Close']
 
             asset_value = asset_value + (close_price * np.sum(np.array(asset_amount)))
