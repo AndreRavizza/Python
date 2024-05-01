@@ -141,54 +141,34 @@ for day in date_list:
 
             asset_yf = yf.Ticker(asset)
 
-            historical_data = asset_yf.history(start=start_date, end=end_date)
-
-            if day in historical_data.index:
-
-                close_price = historical_data.loc[day, 'Close']
-
-                asset_value = asset_value + (close_price * np.sum(np.array(asset_amount)))
-
-            elif day not in historical_data.index and not historical_data.empty:
-
-                close_price = historical_data['Close'].iloc[-1]
-
-                asset_value = asset_value + (close_price * np.sum(np.array(asset_amount)))
-
-            else:
-
-                if asset not in removed_assets:
-
-                    removed_assets.append(asset)
-
         elif asset.find("1") == -1:
 
             asset_yf = yf.Ticker(f"{asset}.SA")
 
-            historical_data = asset_yf.history(start=start_date, end=end_date)
+        historical_data = asset_yf.history(start=start_date, end=end_date)
 
-            if day in historical_data.index:
+        if day in historical_data.index:
 
-                close_price = historical_data.loc[day, 'Close']
+            close_price = historical_data.loc[day, 'Close']
 
-                asset_value = asset_value + (close_price * np.sum(np.array(asset_amount)))
+            asset_value = asset_value + (close_price * np.sum(np.array(asset_amount)))
 
-            elif day not in historical_data.index and not historical_data.empty:
+        elif day not in historical_data.index and not historical_data.empty:
 
-                close_price = historical_data['Close'].iloc[-1]
+            close_price = historical_data['Close'].iloc[-1]
 
-                asset_value = asset_value + (close_price * np.sum(np.array(asset_amount)))
+            asset_value = asset_value + (close_price * np.sum(np.array(asset_amount)))
 
-            else:
+        else:
 
-                 if asset not in removed_assets:
+            if asset not in removed_assets:
 
-                    removed_assets.append(asset)
+                removed_assets.append(asset)
 
-        for removed_asset in removed_assets:
+    for removed_asset in removed_assets:
 
-            if removed_asset in assets_dic:
+        if removed_asset in assets_dic:
 
-                assets_dic.pop(removed_asset)
+            assets_dic.pop(removed_asset)
 
     print(day, asset_value)
