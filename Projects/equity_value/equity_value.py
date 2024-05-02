@@ -15,7 +15,7 @@ df = pd.read_excel('Equity Value.xlsx')
 
 df['Produto'] = df['Produto'].str.split('-').str[0].str.strip()
 
-# convertendo a coluna "Data" para formato de data utilizando a biblioteca "Datetime"
+# convertendo a coluna "Data" para formato de data
 # dayfirst define que o primeiro número da data se refere ao dia
 
 df['Data'] = pd.to_datetime(df['Data'], dayfirst=True)
@@ -25,21 +25,9 @@ df['Data'] = pd.to_datetime(df['Data'], dayfirst=True)
 min_date = df['Data'].min()
 max_date = df['Data'].max()
 
-# Criando uma lista vazia que será armazenadas todas as datas entre a menor e a maior data
-
-date_list = []
-
 # Definindo a data atual igual a menor data
 
 current_date = min_date
-
-# Criando um loop que insere na lista todas os dias entre a data mínima e a data máxima
-
-while current_date <= max_date:
-
-    date_list.append(current_date)
-
-    current_date = current_date + timedelta(days=1)
 
 # Criando um dicionário que irá armazenar os ativos e a quantidade
 
@@ -49,9 +37,13 @@ assets_dic = {}
 
 removed_assets = []
 
-# Verificando em cada dia qual o valor do portfólio
+# Criando um loop para gerenciar os ativos no dicionário
 
-for day in date_list:
+while current_date <= max_date:
+
+    day = current_date
+
+    # Verificando em cada dia qual o valor do portfólio
 
     asset_value = 0
 
@@ -117,9 +109,11 @@ for day in date_list:
                     
                     assets_dic[df.loc[index_number, 'Produto']] = [asset_amount]
 
-    # Formatando as datas e definindo a data inicio e fim para cada consulta de cotação no yahoo finance
+    current_date = current_date + timedelta(days=1)
 
-    day = pd.to_datetime(day, format="%Y-%m/%d")
+    # Formatando as datas e definindo a data inicio e fim para cada consulta de cotação no yahoo finance
+    
+    day = pd.to_datetime(day, format="%d-%m-%Y", dayfirst = True)
 
     start_date = day - timedelta(days=7)
 
